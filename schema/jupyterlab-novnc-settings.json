@@ -1,0 +1,21 @@
+{
+    "title": "NoVNC settings",
+    "description": "Settings for the jupyterlab-novnc extension.",
+    "type": "object",
+    "properties": {
+      "configured_endpoints": {
+        "type": "array",
+        "title": "Configured endpoints",
+        "description": "Endpoints.",
+        "default": [{
+          "autoconnect": true,
+          "reconnect": true,
+          "reconnect_delay": 1000,
+          "host": "localhost",
+          "port": 6901,
+          "logging": "info",
+          "resize": "scale"
+        }]
+      }
+  }
+}
