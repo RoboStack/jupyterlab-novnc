@@ -5,6 +5,10 @@ build-backend = "jupyter_packaging.build_api"
 [tool.jupyter-packaging.builder]
 factory = "jupyter_packaging.npm_builder"
 
+[tool.jupyter-packaging.options]
+skip-if-exists = ["jupyterlab_novnc/labextension/static/style.js"]
+ensured-targets = ["jupyterlab_novnc/labextension/static/style.js", "jupyterlab_novnc/labextension/package.json"]
+
 [tool.jupyter-packaging.build-args]
 build_cmd = "build:prod"
 npm = ["jlpm"]

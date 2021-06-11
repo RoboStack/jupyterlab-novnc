@@ -4,12 +4,10 @@ import {
 } from '@jupyterlab/application';
 
 import { ICommandPalette } from '@jupyterlab/apputils';
-import {LabIcon} from "@jupyterlab/ui-components";
+import { LabIcon } from '@jupyterlab/ui-components';
 
 import { ISettingRegistry } from '@jupyterlab/settingregistry';
-import {
-  ILauncher
-} from '@jupyterlab/launcher';
+import { ILauncher } from '@jupyterlab/launcher';
 
 const SETTINGS_ID = 'jupyterlab-novnc:jupyterlab-novnc-settings';
 
@@ -17,7 +15,6 @@ import { requestAPI } from './handler';
 
 import { IFrame } from '@jupyterlab/apputils';
 import { PageConfig } from '@jupyterlab/coreutils';
-
 
 import fooSvgstr from '../style/icon.svg';
 
@@ -54,7 +51,7 @@ interface INoVNCOptions {
   // view_clip - If the remote session should be clipped or use scrollbars if it cannot fit in the browser.
   view_clip?: boolean;
   // resize - How to resize the remote session if it is not the same size as the browser window. Can be one of off, scale and remote.
-  resize?: "off" | "scale" | "remote";
+  resize?: 'off' | 'scale' | 'remote';
   // quality - The session JPEG quality level. Can be 0 to 9.
   quality?: number;
   // compression - The session compression level. Can be 0 to 9.
@@ -62,7 +59,7 @@ interface INoVNCOptions {
   // show_dot - If a dot cursor should be shown when the remote server provides no local cursor, or provides a fully-transparent (invisible) cursor.
   show_dot?: boolean;
   // logging - The console log level. Can be one of error, warn, info or debug.
-  logging?: "error" | "warn" | "info" | "debug";
+  logging?: 'error' | 'warn' | 'info' | 'debug';
 }
 
 class noVNCWidget extends IFrame {
@@ -70,19 +67,18 @@ class noVNCWidget extends IFrame {
 
   constructor(options: INoVNCOptions) {
     super();
-    let queryElems = [];
+    const queryElems = [];
 
-    for (const k in (options as object))
-    {
-      if (options.hasOwnProperty(k)) {
-        queryElems.push(encodeURIComponent(k) + "=" + encodeURIComponent((options as any)[k]));
-      }
+    for (const k in options as any) {
+      queryElems.push(
+        encodeURIComponent(k) + '=' + encodeURIComponent((options as any)[k])
+      );
     }
-    this.query = queryElems.join("&");
+    this.query = queryElems.join('&');
 
     const baseUrl = PageConfig.getBaseUrl();
-    this.url = baseUrl + `novnc/app/novnc/vnc.html?${this.query}`;
-    console.log('Full URL: ', this.url)
+    this.url = baseUrl + `novnc/app/vnc.html?${this.query}`;
+    console.log('Full URL: ', this.url);
 
     this.id = 'noVNC';
     this.title.label = 'noVNC';
@@ -120,34 +116,38 @@ const extension: JupyterFrontEndPlugin<void> = {
   autoStart: true,
   requires: [ICommandPalette, ISettingRegistry],
   optional: [ILauncher],
-  activate: (app: JupyterFrontEnd, palette: ICommandPalette, settings: ISettingRegistry, launcher: ILauncher | null) => {
-
+  activate: (
+    app: JupyterFrontEnd,
+    palette: ICommandPalette,
+    settings: ISettingRegistry,
+    launcher: ILauncher | null
+  ) => {
     let _settings: ISettingRegistry.ISettings;
 
     const command = 'novnc:open';
 
-    let registeredCommands : any[] = [];
+    let registeredCommands: any[] = [];
 
-    let _loadSettings = () => {
+    const _loadSettings = () => {
       const enpoints = _settings.get('configured_endpoints').composite as any[];
 
       let i = 0;
-      for (let c of registeredCommands)
-      {
+      for (const c of registeredCommands) {
         c.dispose();
       }
       registeredCommands = [];
 
-      for (let epconf of enpoints)
-      {
-        console.log("Adding comand .. ")
+      for (const epconf of enpoints) {
+        console.log('Adding comand .. ');
         // const full_cmd = command + `:${i}`
-        const full_cmd = command + `:${i}`
+        const full_cmd = command + `:${i}`;
 
         const widget = new noVNCWidget(epconf);
-    
-        let rcmd = app.commands.addCommand(full_cmd, {
-          label: `Connect to VNC ${i}: ${'name' in epconf ? epconf['name'] : epconf['host']}`,
+
+        const rcmd = app.commands.addCommand(full_cmd, {
+          label: `Connect to VNC ${i}: ${
+            'name' in epconf ? epconf['name'] : epconf['host']
+          }`,
           execute: () => {
             if (!widget.isAttached) {
               // Attach the widget to the main work area if it's not there
@@ -160,31 +160,31 @@ const extension: JupyterFrontEndPlugin<void> = {
         });
         registeredCommands.push(rcmd);
 
-          // Add a launcher item if the launcher is available.
+        // Add a launcher item if the launcher is available.
         if (launcher) {
-          let lcmd = launcher.add({
+          const lcmd = launcher.add({
             command: full_cmd,
             rank: 1,
-            category: 'VNC',
+            category: 'VNC'
           });
           registeredCommands.push(lcmd);
         }
 
-        let pcmd = palette.addItem({ command: full_cmd, category: 'NoVNC' });
+        const pcmd = palette.addItem({ command: full_cmd, category: 'NoVNC' });
         registeredCommands.push(pcmd);
 
         i += 1;
       }
-    }
+    };
 
-    settings.load(SETTINGS_ID).then((setting) => {
+    settings.load(SETTINGS_ID).then(setting => {
       console.log(setting);
       _settings = setting;
       const extensions = setting.get('configured_endpoints').composite as any[];
       console.log(extensions);
       _loadSettings();
       setting.changed.connect(_loadSettings);
-    })
+    });
 
     requestAPI<any>('get_example')
       .then(data => {
@@ -192,7 +192,7 @@ const extension: JupyterFrontEndPlugin<void> = {
       })
       .catch(reason => {
         console.error(
-          `The jupyterlab_novnc server extension appears to be missing.\n${reason}`
+          `The jupyterlab-novnc server extension appears to be missing.\n${reason}`
         );
       });
   }

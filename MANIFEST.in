@@ -1,7 +1,10 @@
 include LICENSE
 include README.md
 include pyproject.toml
-include jupyter-config/jupyterlab_novnc.json
+recursive-include jupyter-config *.json
+include schema/jupyterlab-novnc-settings.json
+
+prune docs
 
 include package.json
 include install.json
@@ -9,12 +12,16 @@ include ts*.json
 include yarn.lock
 
 graft jupyterlab_novnc/labextension
+graft jupyterlab_novnc/novnc
 
 # Javascript files
 graft src
 graft style
+graft schema
 prune **/node_modules
 prune lib
+prune binder
+
 
 # Patterns to exclude from any directory
 global-exclude *~

@@ -1,5 +1,5 @@
 """
-jupyterlab_novnc setup
+jupyterlab-novnc setup
 """
 import json
 from pathlib import Path
@@ -14,9 +14,9 @@ import setuptools
 HERE = Path(__file__).parent.resolve()
 
 # The name of the project
-name = "jupyterlab_novnc"
+name = "jupyterlab-novnc"
 
-lab_path = (HERE / name / "labextension")
+lab_path = (HERE / name.replace('-', '_') / "labextension")
 
 # Representative files that should exist after a successful build
 ensured_targets = [
@@ -29,8 +29,10 @@ labext_name = "jupyterlab-novnc"
 data_files_spec = [
     ("share/jupyter/labextensions/%s" % labext_name, str(lab_path), "**"),
     ("share/jupyter/labextensions/%s" % labext_name, str(HERE), "install.json"),
-    ("etc/jupyter/jupyter_server_config.d","jupyter-config", "jupyterlab_novnc.json"),
-    
+    ("etc/jupyter/jupyter_server_config.d", "jupyter-config/server-config", "jupyterlab_novnc.json"),
+    # For backward compatibility with notebook server
+    ("etc/jupyter/jupyter_notebook_config.d", "jupyter-config/nb-config", "jupyterlab_novnc.json"),
+    ("etc/jupyter/jupyter_notebook_config.d", "jupyter-config/nb-config", "jupyterlab_novnc.json"),
 ]
 
 post_develop = npm_builder(

@@ -1,17 +1,52 @@
-# jupyterlab_novnc
+# jupyterlab-novnc
 
-![Github Actions Status](https://github.com/github_username/jupyterlab_novnc/workflows/Build/badge.svg)[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/github_username/jupyterlab_novnc/main?urlpath=lab)
+![Github Actions Status](https://github.com/robostack/jupyterlab-novnc/workflows/Build/badge.svg)[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/robostack/jupyterlab-novnc/main?urlpath=lab)
 
-novnc for jlab
+![jupyterlab-novnc viewer running](docs/assets/screenshot.png)
 
+This package adds a novnc viewer to JupyterLab. It's a simple extension that just runs noVNC in an iframe.
 
-This extension is composed of a Python package named `jupyterlab_novnc`
+You can configure noVNC connections in the settings panel. You probably want to configure at least `host` and `port`. Additionally you can add a name to your connection to make it easier to find. 
+
+This extension is composed of a Python package named `jupyterlab-novnc`
 for the server extension and a NPM package named `jupyterlab-novnc`
 for the frontend extension.
 
-Allowed settings values:
+<div>Icons made by <a href="https://www.flaticon.com/authors/smartline" title="Smartline">Smartline</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
+
+### Settings
+
+You need to open the Advanced Settings menu of JupyterLab and configure jupyterlab-novnc. Add your desired configurations to the "configured_endpoints" setting as a list.
+
+After configuration is done, you'll have one icon per configured endpoint:
+
+![Icons showing up in JupyterLab](docs/assets/icons_in_jlab.png)
+
+The noVNC panel can also be opened from the command pallet.
+
+For example:
 
 ```
+{
+    "configured_endpoints": [
+    {
+        "name": "Robot",
+        "host": "localhost",
+        "port": 6080,
+        "resize": "scale",
+        "password": "mycrazycomplicatedpassword"
+    },
+    {
+      ...
+    }
+}
+```
+
+Allowed settings values for each item are:
+
+```ts
+{
+  name: string; // optional name, otherwise host is used
   // autoconnect - Automatically connect as soon as the page has finished loading.
   autoconnect: boolean;
   // reconnect - If noVNC should automatically reconnect if the connection is dropped.
@@ -48,6 +83,7 @@ Allowed settings values:
   show_dot?: boolean;
   // logging - The console log level. Can be one of error, warn, info or debug.
   logging?: "error" | "warn" | "info" | "debug";
+}
 ```
 
 ## Requirements
@@ -57,7 +93,7 @@ Allowed settings values:
 ## Install
 
 ```bash
-pip install jupyterlab_novnc
+pip install jupyterlab-novnc
 ```
 
 
