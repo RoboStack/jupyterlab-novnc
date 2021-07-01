@@ -15,12 +15,11 @@ import { requestAPI } from './handler';
 
 import { IFrame } from '@jupyterlab/apputils';
 import { PageConfig } from '@jupyterlab/coreutils';
+import noVncIconSvgstr from '../style/icon.svg';
 
-import fooSvgstr from '../style/icon.svg';
-
-export const fooIcon = new LabIcon({
+export const noVncIcon = new LabIcon({
   name: 'jupyterlab-novnc:icon',
-  svgstr: fooSvgstr
+  svgstr: noVncIconSvgstr
 });
 
 interface INoVNCOptions {
@@ -82,6 +81,7 @@ class noVNCWidget extends IFrame {
 
     this.id = 'noVNC';
     this.title.label = 'noVNC';
+    this.title.icon = noVncIcon;
     this.title.closable = true;
     this.node.style.overflowY = 'auto';
     this.node.style.background = '#FFF';
@@ -156,7 +156,7 @@ const extension: JupyterFrontEndPlugin<void> = {
             // Activate the widget
             app.shell.activateById(widget.id);
           },
-          icon: fooIcon
+          icon: noVncIcon
         });
         registeredCommands.push(rcmd);
 

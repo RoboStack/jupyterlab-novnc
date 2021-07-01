@@ -32,7 +32,6 @@ data_files_spec = [
     ("etc/jupyter/jupyter_server_config.d", "jupyter-config/server-config", "jupyterlab_novnc.json"),
     # For backward compatibility with notebook server
     ("etc/jupyter/jupyter_notebook_config.d", "jupyter-config/nb-config", "jupyterlab_novnc.json"),
-    ("etc/jupyter/jupyter_notebook_config.d", "jupyter-config/nb-config", "jupyterlab_novnc.json"),
 ]
 
 post_develop = npm_builder(
