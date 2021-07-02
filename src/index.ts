@@ -9,7 +9,7 @@ import { LabIcon } from '@jupyterlab/ui-components';
 import { ISettingRegistry } from '@jupyterlab/settingregistry';
 import { ILauncher } from '@jupyterlab/launcher';
 
-const SETTINGS_ID = 'jupyterlab-novnc:jupyterlab-novnc-settings';
+const SETTINGS_ID = 'jupyterlab-novnc:plugin';
 
 import { requestAPI } from './handler';
 
