@@ -1,6 +1,8 @@
 {
     "title": "NoVNC settings",
     "description": "Settings for the jupyterlab-novnc extension.",
+    "jupyter.lab.setting-icon": "jupyterlab-novnc:icon",
+    "jupyter.lab.setting-icon-label": "NoVNC Settings",
     "type": "object",
     "properties": {
       "configured_endpoints": {
